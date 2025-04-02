@@ -36,10 +36,11 @@
         <section class="job-grid">
         </section>
         <style>
-          :host{
+          :host {
             display: grid;
             position: relative;
           }
+
           section[class="job-grid"] {
             display: grid;
             gap: 25px;
@@ -48,19 +49,61 @@
 
           section[class="filter"] {
             display: grid;
+            justify-content: start;
             height: 50px;
             width: 80%;
             background-color: white;
             justify-self: center;
             box-sizing: border-box;
             padding: 30px;
-            grid-template-columns: min-content auto;
+            grid-auto-flow: column;
             grid-template-rows: min-content;
             gap: 20px;
             align-items: center;
             align-content: center;
             position: absolute;
-            top: -25px;;
+            top: -25px;
+          }
+
+          button {
+            width: min-content;
+            border-color: transparent;
+            color: var(--desaturated-dark-cyan);
+            font-weight: 700;
+            background-color: var(--light-grayish-cyan-filter-tablets);
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            place-content: center;
+            padding: 0;
+            border: 0;
+          }
+
+          div {
+            display: grid;
+            grid-template-columns: 1fr auto;
+          }
+
+          div:hover {
+            section[class="image-container"] {
+              background-color: var(--very-dark-grayish-cyan);
+            }
+          }
+
+          div span {
+            padding: 10px;
+          }
+
+
+          section[class="image-container"] {
+            background-color: var(--desaturated-dark-cyan);
+            display: grid;
+            place-items: center;
+
+          }
+
+          section[class="image-container"] svg {
+            padding: 10px;
           }
         </style>
       </template>

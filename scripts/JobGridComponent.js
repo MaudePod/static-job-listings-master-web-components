@@ -1,10 +1,5 @@
-const template = document.createElement("template");
-template.innerHTML = `
-`;
-
 export default class JobGridComponent extends HTMLElement {
     #internals;
-    #form;
     constructor() {
         super();
         this.#internals = this.attachInternals();
@@ -12,13 +7,10 @@ export default class JobGridComponent extends HTMLElement {
     connectedCallback(
     ) {
         this.getJobsDataFromJson();
-    
         window.addEventListener('Filter updated', (event) => {
-        const filter = localStorage.getItem('filter');
-          let filterOptions = JSON.parse(filter);
-        // this.shadowRoot.querySelector('section[class="filter"]').innerHTML += this.createButtonsFromArray(filterOptions);
+            this.shadowRoot.querySelector('section[class="filter"]').innerHTML = this.createButtonsForFilter();
         });
-   
+
     }
     disconnectedCallback() {
     }
@@ -50,15 +42,27 @@ export default class JobGridComponent extends HTMLElement {
             })
         });
     }
-    createButtonsFromArray=(filterOptions)=>{
+    createButtonsForFilter = () => {
+        const filter = localStorage.getItem('filter');
+        let filterOptions = JSON.parse(filter);
         let html = "";
         filterOptions.forEach(element => {
-          if(element!=""){
-          html += `<button id=${element.toLowerCase()}>${element}</button>`;
-          }
+            if (element != "") {
+                html += `
+                <button id=${element.toLowerCase()}>
+                    <div>
+                        <span>
+                        ${element}
+                        </span>
+                     <section class="image-container">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path fill="#FFF" fill-rule="evenodd" d="M11.314 0l2.121 2.121-4.596 4.596 4.596 4.597-2.121 2.121-4.597-4.596-4.596 4.596L0 11.314l4.596-4.597L0 2.121 2.121 0l4.596 4.596L11.314 0z"/></svg>
+                     </section>
+                    </div>
+                </button>`;
+            }
         });
         return html;
-      }
+    }
 
 
     static get observedAttributes() {
