@@ -181,11 +181,13 @@ export default class JobListingComponent extends HTMLElement {
       this.shadowRoot.querySelector("span[class='location']").innerHTML = this.getAttribute('location');
     }
     if (this.hasAttribute('tools')) {
-      const html=this.createButtonsFromString(this.getAttribute('tools'));
+      const html = this.createButtonsFromString(this.getAttribute('tools'));
+      this.setFilterAttributes(this.getAttribute('tools'));
       this.shadowRoot.querySelector("section[class='tools']").innerHTML += html;
     }
     if (this.hasAttribute('languages')) {
-      const html=this.createButtonsFromString(this.getAttribute('languages'));
+      const html = this.createButtonsFromString(this.getAttribute('languages'));
+      this.setFilterAttributes(this.getAttribute('languages'));
       this.shadowRoot.querySelector("section[class='tools']").innerHTML += html;
     }
     if (this.hasAttribute('logo')) {
@@ -210,16 +212,25 @@ export default class JobListingComponent extends HTMLElement {
 
   disconnectedCallback() {
   }
-createButtonsFromString=(stringOfItems)=>{
-  const buttonIds = stringOfItems.split([',']);
-  let html = "";
-  buttonIds.forEach(element => {
-    if(element!=""){
-    html += `<button id=${element.toLowerCase()}>${element}</button>`;
-    }
-  });
-  return html;
-}
+  createButtonsFromString = (stringOfItems) => {
+    const buttonIds = stringOfItems.split([',']);
+    let html = "";
+    buttonIds.forEach(element => {
+      if (element != "") {
+        html += `<button id=${element.toLowerCase()}>${element}</button>`;
+      }
+    });
+    return html;
+  }
+  setFilterAttributes = (stringOfItems) => {
+    const items = stringOfItems.split([',']);
+    items.forEach(element => {
+      if (element != "") {
+        this.setAttribute(element, true);
+      }
+    });
+
+  }
   static get observedAttributes() {
     return [
       'company',

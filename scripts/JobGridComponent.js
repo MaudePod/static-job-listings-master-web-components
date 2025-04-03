@@ -7,6 +7,15 @@ export default class JobGridComponent extends HTMLElement {
     connectedCallback(
     ) {
         this.getJobsDataFromJson();
+        const buttons = this.createButtonsForFilter();
+        if (buttons != "") {
+            this.shadowRoot.querySelector('section[class="filter"]').innerHTML = this.createButtonsForFilter();
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(this.createFilterStyleSheet());
+
+            this.shadowRoot.adoptedStyleSheets = [sheet];
+
+        }
         window.addEventListener('Filter updated', (event) => {
             this.shadowRoot.querySelector('section[class="filter"]').innerHTML = this.createButtonsForFilter();
         });
@@ -44,11 +53,12 @@ export default class JobGridComponent extends HTMLElement {
     }
     createButtonsForFilter = () => {
         const filter = localStorage.getItem('filter');
-        let filterOptions = JSON.parse(filter);
         let html = "";
-        filterOptions.forEach(element => {
-            if (element != "") {
-                html += `
+        if (filter) {
+            let filterOptions = JSON.parse(filter);
+            filterOptions.forEach(element => {
+                if (element != "") {
+                    html += `
                 <button id=${element.toLowerCase()}>
                     <div>
                         <span>
@@ -59,11 +69,36 @@ export default class JobGridComponent extends HTMLElement {
                      </section>
                     </div>
                 </button>`;
-            }
-        });
+                }
+            });
+        }
         return html;
     }
+    createFilterStyleSheet = () => {
+        const filter = localStorage.getItem('filter');
+        let not = "";
+        let has = "";
+        if (filter) {
+            let filterOptions = JSON.parse(filter);
+            filterOptions.forEach(element => {
+                if (element != "") {
+                    not += `:not(job-listing-component[${element}="true" i])`;
+                    has += `:has(button[${element}="true" i])`;
 
+                }
+            });
+
+            return `
+      :host${has}{
+              job-listing-component${not}{
+                display: none;
+              } 
+            }
+    
+    `;
+        }
+        return "";
+    }
 
     static get observedAttributes() {
         return [
