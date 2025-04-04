@@ -9,19 +9,20 @@ export default class JobGridComponent extends HTMLElement {
         this.getJobsDataFromJson();
         const buttons = this.createButtonsForFilter();
         if (buttons != "") {
-            this.shadowRoot.querySelector('section[class="filter"]').innerHTML = this.createButtonsForFilter();
-            const sheet = new CSSStyleSheet();
-            sheet.replaceSync(this.createFilterStyleSheet());
-
-            this.shadowRoot.adoptedStyleSheets = [sheet];
-
+            this.updateFilterOptions();
         }
         window.addEventListener('Filter updated', (event) => {
-            this.shadowRoot.querySelector('section[class="filter"]').innerHTML = this.createButtonsForFilter();
+            this.updateFilterOptions();
         });
-
     }
     disconnectedCallback() {
+    }
+    updateFilterOptions = () => {
+        this.shadowRoot.querySelector('section[class="options"]').innerHTML = this.createButtonsForFilter();
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(this.createFilterStyleSheet());
+        this.shadowRoot.adoptedStyleSheets = [sheet];
+        this.addEventListenersForButtons();
     }
     getJobsDataFromJson = () => {
         let html = "";
@@ -72,7 +73,23 @@ export default class JobGridComponent extends HTMLElement {
                 }
             });
         }
+
         return html;
+    }
+    addEventListenersForButtons = () => {
+        [...this.shadowRoot.querySelectorAll('button')].forEach(element => {
+            element.addEventListener('click', (event) => {
+                const filterValue = event.currentTarget.id;
+                if (filterValue == "clear") {
+                    localStorage.removeItem('filter');
+                } else {
+                    const oldFilter = JSON.parse(localStorage.getItem("filter"));
+                    let newFilter = oldFilter.filter(element => element != filterValue);
+                    localStorage.setItem('filter', JSON.stringify(newFilter));
+                }
+                this.updateFilterOptions();
+            });
+        })
     }
     createFilterStyleSheet = () => {
         const filter = localStorage.getItem('filter');
@@ -83,19 +100,20 @@ export default class JobGridComponent extends HTMLElement {
             filterOptions.forEach(element => {
                 if (element != "") {
                     not += `:not(job-listing-component[${element}="true" i])`;
-                    has += `:has(button[${element}="true" i])`;
-
+                    has += `:has(button[id="${element}" i])`;
                 }
             });
-
-            return `
-      :host${has}{
-              job-listing-component${not}{
-                display: none;
-              } 
+            if (has != "" && not != "") {
+                let css = `
+            :host${has}{
+                    job-listing-component${not}{
+                    display: none;
+                    } 
+                }`;
+                return css;
+            } else {
+                return "";
             }
-    
-    `;
         }
         return "";
     }

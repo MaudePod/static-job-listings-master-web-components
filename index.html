@@ -32,7 +32,10 @@
 
     <job-grid-component>
       <template shadowrootmode="open">
-        <section class="filter"></section>
+        <section class="filter">
+          <section class='options'></section>
+          <button id="clear">Clear</button>
+        </section>
         <section class="job-grid">
         </section>
         <style>
@@ -45,6 +48,22 @@
             display: grid;
             gap: 25px;
             margin: 50px 0px;
+            grid-template-rows: min-content;
+            align-content: baseline;
+            counter-reset: job-count;
+            position: relative;
+          }
+
+          :host:has(section[class="options"] button) {
+            section[class="job-grid"]::after {
+              content: counter(job-count) " job(s) match your criteria";
+              text-wrap: nowrap;
+              position: absolute;
+              top: 5px;
+              place-self: center;
+              color: var(--desaturated-dark-cyan);
+              font-weight: 700;
+            }
           }
 
           section[class="filter"] {
@@ -56,13 +75,24 @@
             justify-self: center;
             box-sizing: border-box;
             padding: 30px;
-            grid-auto-flow: column;
             grid-template-rows: min-content;
-            gap: 20px;
+            grid-template-columns: 1fr auto;
             align-items: center;
             align-content: center;
             position: absolute;
             top: -25px;
+          }
+
+          section[class="filter"]:has(section[class="options"]:empty) {
+            display: none;
+          }
+
+          section[class="options"] {
+            display: grid;
+            gap: 20px;
+            grid-auto-flow: column;
+            grid-template-columns: min-content;
+            justify-content: start;
           }
 
           button {
@@ -77,6 +107,17 @@
             place-content: center;
             padding: 0;
             border: 0;
+            justify-self: start;
+          }
+
+          button[id="clear"] {
+            background-color: transparent;
+          }
+
+          button[id="clear"]:hover {
+            background-color: transparent;
+            justify-self: end;
+            text-decoration: underline;
           }
 
           div {
@@ -105,12 +146,13 @@
           section[class="image-container"] svg {
             padding: 10px;
           }
-          
-          
+
+          job-listing-component {
+            counter-increment: job-count;
+          }
         </style>
       </template>
     </job-grid-component>
-
 
   </main>
   <div class="attribution">

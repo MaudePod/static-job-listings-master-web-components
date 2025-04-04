@@ -20,8 +20,6 @@ template.innerHTML = `
             </span>
           </section>
           <section class="tools">
-            <button id="role"></button>
-            <button id="level"></button>
           </section>
         </article>
         <style>
@@ -38,6 +36,7 @@ template.innerHTML = `
             gap: 20px;
             align-items: center;
             align-content: center;
+            margin: 0 auto;
           }
 
           img {
@@ -166,10 +165,12 @@ export default class JobListingComponent extends HTMLElement {
       this.shadowRoot.querySelector("section[class='position']").innerHTML = this.getAttribute('position');
     }
     if (this.hasAttribute('role')) {
-      this.shadowRoot.querySelector("button[id='role']").innerHTML = this.getAttribute('role');
+      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('role').toLowerCase()}>${this.getAttribute('role')}</button>`;
+      this.setAttribute(this.getAttribute('role'), true);
     }
     if (this.hasAttribute('level')) {
-      this.shadowRoot.querySelector("button[id='level']").innerHTML = this.getAttribute('level');
+      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('level').toLowerCase()}>${this.getAttribute('level')}</button>`;
+      this.setAttribute(this.getAttribute('level'), true);
     }
     if (this.hasAttribute('posted-at')) {
       this.shadowRoot.querySelector("span[class='posted-at']").innerHTML = this.getAttribute('posted-at');
@@ -193,6 +194,7 @@ export default class JobListingComponent extends HTMLElement {
     if (this.hasAttribute('logo')) {
       this.shadowRoot.querySelector("img").src = this.getAttribute('logo');
     }
+    
     [...this.shadowRoot.querySelectorAll('button')].forEach(element => {
       element.addEventListener('click', (event) => {
         const filter = localStorage.getItem('filter');
