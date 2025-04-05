@@ -22,6 +22,8 @@ body {
     font-family: 'LeagueSpartan';
     font-weight: 500;
     grid-template-rows: min-content;
+    container: body / inline-size;
+    color: var(--light-grayish-cyan-filter-tablets);
 }
 
 header {
@@ -38,7 +40,7 @@ main {
     width: 100svw;
 }
 
-html {
-    color-scheme: dark light;
+div {
+    color: var(--dark-grayish-cyan);
+    margin-bottom: 10px;
 }
-

@@ -58,9 +58,16 @@ export default class JobGridComponent extends HTMLElement {
         if (filter) {
             let filterOptions = JSON.parse(filter);
             filterOptions.forEach(element => {
+                let id = element;
                 if (element != "") {
+                    if (element == "new") {
+                        element = "NEW!"
+                    }
+                    if (element == "featured") {
+                        element = "FEATURED"
+                    }
                     html += `
-                <button id=${element.toLowerCase()}>
+                <button id=${id}>
                     <div>
                         <span>
                         ${element}

@@ -1,137 +1,232 @@
 const template = document.createElement("template");
 template.innerHTML = `          
-        <article class="job-listing">
-          <img>
-          <section class="company-info">
-            <section class="company">
-            </section>
-            <span class="new">NEW!</span>
-            <span class="featured">FEATURED</span>
+      <article class="job-listing">
+        <img>
+        <section class="company-info">
+          <section class="company">
           </section>
-          <section class="position"></section>
-          <section class="role">
-            <span class="posted-at">
-            </span>
-            <span class="dot">.</span>
-            <span class="contract">
-            </span>
-            <span class="dot">.</span>
-            <span class="location">
-            </span>
-          </section>
-          <section class="tools">
-          </section>
-        </article>
-        <style>
-          article[class="job-listing"] {
+          <button id="new">NEW!</button>
+          <button id="featured">FEATURED</button>
+        </section>
+        <button class="position" id="position"></button>
+        <section class="role">
+          <span class="posted-at">
+          </span>
+          <span class="dot">.</span>
+          <span class="contract">
+          </span>
+          <span class="dot">.</span>
+          <span class="location">
+          </span>
+        </section>
+        <section class="tools">
+        </section>
+      </article>
+      <style>
+        :host {
+          position: relative;
+        }
+
+        article[class="job-listing"] {
+          display: grid;
+          width: 80%;
+          min-height: min-content;
+          background-color: white;
+          justify-self: center;
+          box-sizing: border-box;
+          padding: 30px;
+          grid-template-columns: min-content auto;
+          grid-template-rows: min-content;
+          gap: 20px;
+          align-items: center;
+          align-content: center;
+          margin: 0 auto;
+          box-shadow: 0px 0px 15px -8px var(--dark-grayish-cyan);
+          border-radius: 5px;
+        }
+
+        img {
+          grid-row: span 3;
+        }
+
+        section[class="company-info"] {
+          grid-column: 2;
+          grid-row: 1;
+          display: grid;
+          grid-auto-flow: column;
+          width: min-content;
+          gap: 10px;
+          justify-self: start;
+        }
+
+        section[class="company"] {
+          font-weight: 700;
+          color: var(--desaturated-dark-cyan);
+          align-self: center;
+          text-wrap: nowrap;
+        }
+
+        button[id="new"] {
+          display: none;
+          background-color: var(--desaturated-dark-cyan);
+          color: var(--light-grayish-cyan-filter-tablets);
+          height: min-content;
+          padding: 5px 10px;
+          border-radius: 15px;
+          border-color: transparent;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        button[id="new"]:hover {
+          color: var(--desaturated-dark-cyan);
+          background-color: var(--light-grayish-cyan-filter-tablets);
+        }
+
+        :host([new="true"]) {
+          button[id="new"] {
             display: grid;
-            width: 80%;
-            height: min-content;
-            background-color: white;
-            justify-self: center;
-            box-sizing: border-box;
-            padding: 30px;
-            grid-template-columns: min-content auto;
-            grid-template-rows: min-content;
-            gap: 20px;
-            align-items: center;
-            align-content: center;
-            margin: 0 auto;
+          }
+        }
+
+        button[id="featured"] {
+          display: none;
+          background-color: var(--very-dark-grayish-cyan);
+          color: var(--light-grayish-cyan-filter-tablets);
+          height: min-content;
+          padding: 5px 10px;
+          border-radius: 15px;
+          border-color: transparent;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        button[id="featured"]:hover {
+          color: var(--very-dark-grayish-cyan);
+          background-color: var(--light-grayish-cyan-filter-tablets);
+        }
+
+        :host([featured="true"]) {
+          article[class="job-listing"] {
+            border-left: 4px solid var(--desaturated-dark-cyan);
+          }
+
+          button[id="featured"] {
+            display: grid;
+          }
+        }
+
+        button[class="position"] {
+          grid-row: 2;
+          grid-column: 2;
+          color: var(--very-dark-grayish-cyan);
+          background-color: transparent;
+          font-weight: 700;
+          font-size: 1.2em;
+          border: 0;
+          padding: 0;
+          justify-self: start;
+          cursor: pointer;
+        }
+
+        button[class="position"]:hover {
+          color: var(--desaturated-dark-cyan);
+        }
+
+        section[class="role"] {
+          grid-column: 2;
+          grid-row: 3;
+          align-items: center;
+          display: grid;
+          grid-auto-flow: column;
+          width: min-content;
+          gap: 5px;
+          text-wrap: nowrap;
+          align-content: center;
+        }
+
+        span[class="posted-at"] {
+          color: var(--dark-grayish-cyan);
+        }
+
+        span[class="dot"] {
+          color: var(--dark-grayish-cyan);
+          align-self: center;
+        }
+
+        span[class="contract"] {
+          color: var(--dark-grayish-cyan);
+        }
+
+        span[class="location"] {
+          color: var(--dark-grayish-cyan);
+
+        }
+
+        section[class="tools"] {
+          grid-column: 3;
+          grid-row: 2;
+          justify-self: end;
+          color: var(--desaturated-dark-cyan);
+          display: grid;
+          gap: 10px;
+          grid-auto-flow: column;
+        }
+
+        section[class="tools"] button {
+          border-color: transparent;
+          color: var(--desaturated-dark-cyan);
+          font-weight: 700;
+          background-color: var(--light-grayish-cyan-filter-tablets);
+          padding: 10px;
+          cursor: pointer;
+        }
+
+        section[class="tools"] button:hover {
+          background-color: var(--desaturated-dark-cyan);
+          color: var(--light-grayish-cyan-filter-tablets);
+        }
+
+        @container(inline-size < 1000px) {
+          article[class="job-listing"] {
+            grid-template-columns: 1fr;
           }
 
           img {
-            grid-row: span 3;
+            position: absolute;
+            top: -42px;
+            left: 12%;
+            transform: scale(70%);
           }
 
           section[class="company-info"] {
-            grid-column: 2;
-            grid-row: 1;
-            display: grid;
-            grid-auto-flow: column;
-            width: min-content;
-            gap: 10px;
-            justify-self: start;
+            grid-column: 1;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
           }
 
-          section[class="company"] {
-            font-weight: 700;
-            color: var(--desaturated-dark-cyan);
-            align-self: center;
-            text-wrap: nowrap;
-          }
-
-          span[class="new"] {
-            display:none;
-            background-color: var(--desaturated-dark-cyan);
-            height: min-content;
-            padding: 5px 10px;
-            border-radius: 10px;
-          }
-
-          span[class="featured"] {
-            background-color: var(--very-dark-grayish-cyan);
-            height: min-content;
-            padding: 5px 10px;
-            border-radius: 10px;
-          }
-
-          section[class="position"] {
-            grid-row: 2;
-            grid-column: 2;
-            color: var(--very-dark-grayish-cyan);
-            font-weight: 700;
-            font-size: 1.2em;
+          button[class="position"] {
+            grid-column: 1;
           }
 
           section[class="role"] {
-            grid-column: 2;
-            grid-row: 3;
-            align-items: center;
-            display: grid;
-            grid-auto-flow: column;
-            width: min-content;
-            gap: 5px;
-            text-wrap: nowrap;
-            align-content: center;
+            grid-column: 1;
+            width: 100%;
+            border-bottom: 2px solid var(--dark-grayish-cyan);
+            padding-bottom: 20px;
+            justify-content: start;
           }
 
-          span[class="posted-at"] {
-            color: var(--dark-grayish-cyan);
-          }
-
-          span[class="dot"] {
-            color: var(--dark-grayish-cyan);
-            align-self: center;
-          }
-
-          span[class="contract"] {
-            color: var(--dark-grayish-cyan);
-          }
-
-          span[class="location"] {
-            color: var(--dark-grayish-cyan);
-
-          }
 
           section[class="tools"] {
-            grid-column: 3;
-            grid-row: 2;
-            justify-self: end;
-            color: var(--desaturated-dark-cyan);
-            display: grid;
-            gap: 10px;
-            grid-auto-flow: column;
+            grid-column: 1;
+            grid-row: 4;
+            display: flex;
+            flex-wrap: wrap;
           }
-
-          section[class="tools"] button {
-            border-color: transparent;
-            color: var(--desaturated-dark-cyan);
-            font-weight: 700;
-            background-color: var(--light-grayish-cyan-filter-tablets);
-            padding: 10px;
-            cursor:pointer;
-          }
-        </style>
+        }
+      </style>
 `;
 export default class JobListingComponent extends HTMLElement {
   constructor() {
@@ -149,27 +244,33 @@ export default class JobListingComponent extends HTMLElement {
       this.shadowRoot.querySelector("section[class='company']").innerHTML = this.getAttribute('company');
       this.shadowRoot.querySelector("img").alt = this.getAttribute('company');
     }
-    if (this.hasAttribute('new')) {
-      const isNew = this.getAttribute('new');
-      if (isNew) {
-        this.shadowRoot.querySelector("span[class='new']").style.display = "grid";
-      }
-    }
-    if (this.hasAttribute('featured')) {
-      const isFeatured = this.getAttribute('featured');
-      if (isFeatured) {
-        this.shadowRoot.querySelector("span[class='featured']").style.display = "grid";
-      }
-    }
     if (this.hasAttribute('position')) {
-      this.shadowRoot.querySelector("section[class='position']").innerHTML = this.getAttribute('position');
+      const position = this.getAttribute('position');
+      switch (position) {
+        case 'Senior Frontend Developer':
+          this.shadowRoot.querySelector("button[class='position']").id = "Senior";
+          break;
+        case 'Senior Developer':
+          this.shadowRoot.querySelector("button[class='position']").id = "Senior";
+          break;
+        case 'Junior Frontend Developer':
+          this.shadowRoot.querySelector("button[class='position']").id = "Junior";
+          break;
+        case 'Junior Developer':
+          this.shadowRoot.querySelector("button[class='position']").id = "Junior";
+          break;
+        default:
+          this.shadowRoot.querySelector("button[class='position']").id = "Midweight";
+          break;
+      }
+      this.shadowRoot.querySelector("button[class='position']").innerHTML = this.getAttribute('position');
     }
     if (this.hasAttribute('role')) {
-      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('role').toLowerCase()}>${this.getAttribute('role')}</button>`;
+      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('role')}>${this.getAttribute('role')}</button>`;
       this.setAttribute(this.getAttribute('role'), true);
     }
     if (this.hasAttribute('level')) {
-      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('level').toLowerCase()}>${this.getAttribute('level')}</button>`;
+      this.shadowRoot.querySelector("section[class='tools']").innerHTML += `<button id=${this.getAttribute('level')}>${this.getAttribute('level')}</button>`;
       this.setAttribute(this.getAttribute('level'), true);
     }
     if (this.hasAttribute('posted-at')) {
@@ -194,18 +295,10 @@ export default class JobListingComponent extends HTMLElement {
     if (this.hasAttribute('logo')) {
       this.shadowRoot.querySelector("img").src = this.getAttribute('logo');
     }
-    
+
     [...this.shadowRoot.querySelectorAll('button')].forEach(element => {
       element.addEventListener('click', (event) => {
-        const filter = localStorage.getItem('filter');
-        if (filter) {
-          let filterOptions = new Set(JSON.parse(filter));
-          filterOptions.add(event.target.id);
-          localStorage.setItem('filter', JSON.stringify([...filterOptions]));
-        } else {
-          const filterOption = [event.target.id];
-          localStorage.setItem('filter', JSON.stringify([...filterOption]));
-        }
+        this.setFilter(event.target.id);
         window.dispatchEvent(new CustomEvent("Filter updated", {}));
       });
 
@@ -219,7 +312,7 @@ export default class JobListingComponent extends HTMLElement {
     let html = "";
     buttonIds.forEach(element => {
       if (element != "") {
-        html += `<button id=${element.toLowerCase()}>${element}</button>`;
+        html += `<button id=${element}>${element}</button>`;
       }
     });
     return html;
@@ -231,7 +324,17 @@ export default class JobListingComponent extends HTMLElement {
         this.setAttribute(element, true);
       }
     });
-
+  }
+  setFilter = (id) => {
+    const filter = localStorage.getItem('filter');
+    if (filter) {
+      let filterOptions = new Set(JSON.parse(filter));
+      filterOptions.add(id);
+      localStorage.setItem('filter', JSON.stringify([...filterOptions]));
+    } else {
+      const filterOption = [id];
+      localStorage.setItem('filter', JSON.stringify([...filterOption]));
+    }
   }
   static get observedAttributes() {
     return [

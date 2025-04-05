@@ -40,14 +40,12 @@
         </section>
         <style>
           :host {
-            display: grid;
-            position: relative;
+            margin-bottom: 50px;
           }
 
           section[class="job-grid"] {
             display: grid;
             gap: 25px;
-            margin: 50px 0px;
             grid-template-rows: min-content;
             align-content: baseline;
             counter-reset: job-count;
@@ -69,7 +67,7 @@
           section[class="filter"] {
             display: grid;
             justify-content: start;
-            height: 50px;
+            min-height: 50px;
             width: 80%;
             background-color: white;
             justify-self: center;
@@ -79,20 +77,22 @@
             grid-template-columns: 1fr auto;
             align-items: center;
             align-content: center;
-            position: absolute;
-            top: -25px;
+            transform: translateY(-50px);
+            box-shadow: 0px 0px 15px -8px var(--dark-grayish-cyan);
+            border-radius: 5px;
+            margin: 0 auto;
           }
 
           section[class="filter"]:has(section[class="options"]:empty) {
-            display: none;
+            visibility: hidden;
           }
 
           section[class="options"] {
-            display: grid;
+            display: flex;
             gap: 20px;
-            grid-auto-flow: column;
-            grid-template-columns: min-content;
+            flex-wrap: wrap;
             justify-content: start;
+            width: 70%;
           }
 
           button {
@@ -149,17 +149,35 @@
 
           job-listing-component {
             counter-increment: job-count;
+            position: relative;
+          }
+
+          @container(inline-size <1000px) {
+            article[class="job-listing"] {
+              width: 90%;
+            }
+
+            :host:has(section[class="options"] button) {
+              section[class="job-grid"]::after {
+                content: counter(job-count) " job(s) ";
+                right: 20%;
+              }
+            }
+
+            section[class="job-grid"] {
+              gap: 50px;
+            }
           }
         </style>
       </template>
     </job-grid-component>
 
-  </main>
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
-    Coded by <a href="https://github.com/MaudePod">Maude Pod</a>.
-  </div>
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+      Coded by <a href="https://github.com/MaudePod">Maude Pod</a>.
+    </div>
 
+  </main>
 </body>
 
 </html>
