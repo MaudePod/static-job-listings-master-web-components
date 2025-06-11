@@ -53,7 +53,7 @@ export default class JobGridComponent extends HTMLElement {
         });
     }
     createButtonsForFilter = () => {
-        const filter = localStorage.getItem('filter');
+        const filter = sessionStorage.getItem('filter');
         let html = "";
         if (filter) {
             let filterOptions = JSON.parse(filter);
@@ -88,18 +88,18 @@ export default class JobGridComponent extends HTMLElement {
             element.addEventListener('click', (event) => {
                 const filterValue = event.currentTarget.id;
                 if (filterValue == "clear") {
-                    localStorage.removeItem('filter');
+                    sessionStorage.removeItem('filter');
                 } else {
-                    const oldFilter = JSON.parse(localStorage.getItem("filter"));
+                    const oldFilter = JSON.parse(sessionStorage.getItem("filter"));
                     let newFilter = oldFilter.filter(element => element != filterValue);
-                    localStorage.setItem('filter', JSON.stringify(newFilter));
+                    sessionStorage.setItem('filter', JSON.stringify(newFilter));
                 }
                 this.updateFilterOptions();
             });
         })
     }
     createFilterStyleSheet = () => {
-        const filter = localStorage.getItem('filter');
+        const filter = sessionStorage.getItem('filter');
         let not = "";
         let has = "";
         if (filter) {

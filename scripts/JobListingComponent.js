@@ -326,14 +326,14 @@ export default class JobListingComponent extends HTMLElement {
     });
   }
   setFilter = (id) => {
-    const filter = localStorage.getItem('filter');
+    const filter = sessionStorage.getItem('filter');
     if (filter) {
       let filterOptions = new Set(JSON.parse(filter));
       filterOptions.add(id);
-      localStorage.setItem('filter', JSON.stringify([...filterOptions]));
+      sessionStorage.setItem('filter', JSON.stringify([...filterOptions]));
     } else {
       const filterOption = [id];
-      localStorage.setItem('filter', JSON.stringify([...filterOption]));
+      sessionStorage.setItem('filter', JSON.stringify([...filterOption]));
     }
   }
   static get observedAttributes() {
