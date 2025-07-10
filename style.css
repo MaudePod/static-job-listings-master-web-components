@@ -10,7 +10,7 @@
 }
 
 @font-face {
-    font-family: 'LeagueSpartan';
+    font-family: 'LeagueSpartan',sans-serif;
     src: url(./fonts/League_Spartan/LeagueSpartan-VariableFont_wght.ttf);
 }
 
@@ -19,7 +19,7 @@ body {
     width: 100svw;
     min-height: 100svh;
     margin: 0;
-    font-family: 'LeagueSpartan';
+    font-family: 'LeagueSpartan',sans-serif;
     font-weight: 500;
     grid-template-rows: min-content;
     container: body / inline-size;
